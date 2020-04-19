@@ -12,7 +12,7 @@
             <div class="jumbotron p-3">
                 <h2>
                     Manage <b> Employees</b> <button type="button" class="btn btn-success float-right"
-                    data-toggle="model" data-target="#myModel"> Add New Employees </button>
+                    data-toggle="modal" data-target="#myModal"> Add New Employees </button>
                 </h2>
 
                 <table class="table table-hover table-dark">
@@ -35,13 +35,134 @@
                         <td>2516 Golden Oaks Dr</td>
                         
                         <td>
-                            <a href="" class="btn btn-warning" btn-xs data-toggle="model" data-toggle="#modelEdit">Edit</a>
+                            <a href="" class="btn btn-warning" btn-xs data-toggle="modal" data-target="#modaledit">Edit</a>
                             <a href="" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')">Delete</a>
                         </td>
                     </tr>
+
+                                
+                <!-- Model EDIT employee -->
+                <div id="modaledit" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Update Information</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="" method="POST">
+
+                                    <!-- Form model for the SSN -->
+                                    <div class="form-group">
+                                        <label>SSN:</label>
+                                        <input type="hidden" name="id" value="id">
+                                        <input type="text" class="form-control" name="SSN" value="123121234">
+                                    </div>
+
+                                    <!-- Form model for the DOB -->
+                                    <div>
+                                        <label>DOB:</label>
+                                        <input type="number" class="form-control" name="DOB" value="88888">
+                                    </div>
+
+                                    <!-- Form model for the first name -->
+                                    <div>
+                                        <label>First Name:</label>
+                                        <input type="text" class="form-control" name="Fname" value="Alex">
+                                    </div>
+
+                                    <!-- Form model for the middle name -->
+                                    <div>
+                                        <label>Middle Name:</label>
+                                        <input type="text" class="form-control" name="Minit" value="n/a">
+                                    </div>
+
+                                    <!-- Form model for the last name -->
+                                    <div>
+                                        <label>Last Name:</label>
+                                        <input type="text" class="form-control" name="Lname" value="Penaloza">
+                                    </div>
+
+                                    <!-- Form model for the address -->
+                                    <div>
+                                        <label>Address:</label>
+                                        <input type="text" class="form-control" name="address" value="2516 Golden Oaks Dr">
+                                    </div>
+
+                                    <!-- Button for submitting -->
+                                    <div>
+                                        <button class="btn btn-primary" type="submit">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </table>
-                
             </div>
+
+            <!-- Model ADD employee -->
+
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add Employee</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{url_for('insertEmployee')}}" method="POST">
+
+                                <!-- Form model for the SSN -->
+                                <div class="form-group">
+                                    <label>SSN:</label>
+                                    <input type="number" class="form-control" name="SSN" required="1"></input>
+                                </div>
+
+                                <!-- Form model for the DOB -->
+                                <div>
+                                    <label>DOB:</label>
+                                    <input type="number" class="form-control" name="DOB" required="1"></input>
+                                </div>
+
+                                <!-- Form model for the first name -->
+                                <div>
+                                    <label>First Name:</label>
+                                    <input type="text" class="form-control" name="Fname" required="1"></input>
+                                </div>
+
+                                <!-- Form model for the middle name -->
+                                <div>
+                                    <label>Middle Name:</label>
+                                    <input type="text" class="form-control" name="Minit"></input>
+                                </div>
+
+                                <!-- Form model for the last name -->
+                                <div>
+                                    <label>Last Name:</label>
+                                    <input type="text" class="form-control" name="Lname" required="1"></input>
+                                </div>
+
+                                <!-- Form model for the address -->
+                                <div>
+                                    <label>Address:</label>
+                                    <input type="text" class="form-control" name="Address" required="1"></input>
+                                </div>
+
+                                <!-- Button for submitting -->
+                                <div>
+                                    <button class="btn btn-primary" type="submit">Add Employee</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
