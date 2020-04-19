@@ -12,11 +12,9 @@ Application used for 'Penaloza LLC' that showcases knowledge of CRUD application
 - BootStrap
 - HTML
 
-## Authors
+## Author
 
 * **Alejandro Penaloza** - [Github](https://github.com/apenaloza7)
-* **Arturo Serdan** - [Github](https://github.com/aaserdan)
-* **Nimra Sami** - [Github](https://github.com/nimrasami)
 
 ## Acknowledgments
 
