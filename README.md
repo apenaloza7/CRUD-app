@@ -4,7 +4,7 @@ Application used for 'Penaloza LLC' that showcases knowledge of CRUD application
 
 ## Uses:
 
-- Python 3.73
+- Python 3.7.3
 - Flask
 - SQL Alchemy
 - MySQL Server
