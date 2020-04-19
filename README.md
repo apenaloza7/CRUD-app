@@ -11,6 +11,7 @@ Application used for 'Penaloza LLC' that showcases knowledge of CRUD application
 - JavaScript
 - BootStrap
 - HTML
+- mySQL Connector
 
 ## Author
 
