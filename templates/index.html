@@ -15,6 +15,21 @@
                     data-toggle="modal" data-target="#myModal"> Add New Employees </button>
                 </h2>
 
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for message in messages %}
+
+                <div class="alert alert-success" alert-dismissable role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true">x</span>
+                    </button>
+                    {{message}}
+                </div>
+                
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
                 <table class="table table-hover table-dark">
                     <tr>
                         <th>SSN</th>
@@ -26,66 +41,66 @@
                         <th>Action</th>
                     </tr>
 
+                    {% for row in employees %} 
                     <tr>
-                        <td>213-21-3123</td>
-                        <td>5/08/1998</td>
-                        <td>Alex</td>
-                        <td></td>
-                        <td>Penaloza</td>
-                        <td>2516 Golden Oaks Dr</td>
+                        <td>{{row.0}}</td>
+                        <td>{{row.1}}</td>
+                        <td>{{row.2}}</td>
+                        <td>{{row.3}}</td>
+                        <td>{{row.4}}</td>
+                        <td>{{row.5}}</td>
                         
                         <td>
-                            <a href="" class="btn btn-warning" btn-xs data-toggle="modal" data-target="#modaledit">Edit</a>
-                            <a href="" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')">Delete</a>
+                            <a href="/updateEmployee/{{row.2}}" class="btn btn-warning" btn-xs data-toggle="modal" data-target="#modaledit{{row.2}}">Edit</a>
+                            <a href="/deleteEmployee/{{row.0}}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')">Delete</a>
                         </td>
                     </tr>
 
                                 
                 <!-- Model EDIT employee -->
-                <div id="modaledit" class="modal fade" role="dialog">
+                <div id="modaledit{{row.2}}" class="modal fade" role="dialog">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">Update Information</h4>
                             </div>
                             <div class="modal-body">
-                                <form action="" method="POST">
+                                <form action="{{url_for('updateEmployee')}}" method="POST">
 
                                     <!-- Form model for the SSN -->
                                     <div class="form-group">
                                         <label>SSN:</label>
-                                        <input type="hidden" name="id" value="id">
-                                        <input type="text" class="form-control" name="SSN" value="123121234">
+                                        <input type="text" class="form-control" name="SSN" value="{{row.0}}" readonly>
                                     </div>
 
                                     <!-- Form model for the DOB -->
                                     <div>
                                         <label>DOB:</label>
-                                        <input type="number" class="form-control" name="DOB" value="88888">
+                                        <input type="number" class="form-control" name="DOB" value="{{row.1}}">
                                     </div>
 
                                     <!-- Form model for the first name -->
                                     <div>
                                         <label>First Name:</label>
-                                        <input type="text" class="form-control" name="Fname" value="Alex">
+                                        <input type="text" class="form-control" name="Fname" value="{{row.2}}">
                                     </div>
 
                                     <!-- Form model for the middle name -->
                                     <div>
                                         <label>Middle Name:</label>
-                                        <input type="text" class="form-control" name="Minit" value="n/a">
+                                        <input type="text" class="form-control" name="Minit" value="{{row.3}}">
                                     </div>
 
                                     <!-- Form model for the last name -->
                                     <div>
                                         <label>Last Name:</label>
-                                        <input type="text" class="form-control" name="Lname" value="Penaloza">
+                                        <input type="text" class="form-control" name="Lname" value="{{row.4}}">
                                     </div>
 
                                     <!-- Form model for the address -->
                                     <div>
                                         <label>Address:</label>
-                                        <input type="text" class="form-control" name="address" value="2516 Golden Oaks Dr">
+                                        <input type="text" class="form-control" name="Address" value="{{row.5}}">
                                     </div>
 
                                     <!-- Button for submitting -->
@@ -100,6 +115,8 @@
                         </div>
                     </div>
                 </div>
+
+                {% endfor %}
                 </table>
             </div>
 
