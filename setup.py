@@ -7,8 +7,12 @@ This file serves as the main file that creates the app and houses routes
 Program uses Python 3.73, Flask, SQL Alchemy, a mySQL server, and PHPmyAdmin
 
 Author - Alejandro Penaloza
-Last updated - 4/18/2020
+Last updated - 4/19/2020
 """
+
+#                                   WEB APP AND DATABASE SETUP
+#######################################################################################
+
 
 # Creating the app using Flask
 app = Flask(__name__)
@@ -31,6 +35,9 @@ db = mysql.connector.connect(**config)
 dbCursor = db.cursor()
 
 
+#                                   CONTROLS FOR THE EMPLOYEE DATABASE
+#######################################################################################
+
 # Create router for the landing page
 @app.route('/')
 def Index():
@@ -41,7 +48,7 @@ def Index():
 
 
 # TODO: follow mysql.connector guide to udpate this method
-@app.route('/insert', methods = ['POST'])
+@app.route('/insertEmployee', methods = ['POST'])
 def insertEmployee():
 
     addEmployeeCommand = ("INSERT INTO employee (SSN, DOB, Fname, Minit, Lname, Address) VALUES (%s, %s, %s, %s, %s, %s)")
@@ -54,12 +61,15 @@ def insertEmployee():
         Lname = request.form['Lname']
         Address = request.form['Address']
 
-    employeeData = (SSN, DOB, Fname, Minit, Lname, Address)
+    try:
+        employeeData = (SSN, DOB, Fname, Minit, Lname, Address)
 
-    dbCursor.execute(addEmployeeCommand, employeeData)
-    db.commit()
-
-    flash("Employee inserted successfully")
+        dbCursor.execute(addEmployeeCommand, employeeData)
+        db.commit()
+        flash("Employee inserted successfully")
+    except:
+        db.rollback()
+        flash("SSN ALREADY EXISTS. TRY AGAIN")
 
     return redirect(url_for('Index'))
 
@@ -111,5 +121,22 @@ def deleteEmployee(SSN):
 
     return redirect(url_for('Index'))
 
+
+#                                   CONTROLS FOR THE DEPARTMENT DATBASE
+#######################################################################################
+
+
+
+#                                   CONTROLS FOR THE PROJECT DATBASE
+#######################################################################################
+
+
+
+#                                   CONTROLS FOR THE WORKS DATBASE
+#######################################################################################
+
+
+
+# LAUNCH
 if __name__ == "__main__":
-    app.run()
+    app.run(debug="true")
