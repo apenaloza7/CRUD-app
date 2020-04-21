@@ -34,20 +34,30 @@ db = mysql.connector.connect(**config)
 # Create a cursor for the database
 dbCursor = db.cursor()
 
-
-#                                   CONTROLS FOR THE EMPLOYEE DATABASE
+#                                   CONTROLS FOR THE MAIN PAGE
 #######################################################################################
 
 # Create router for the landing page
 @app.route('/')
 def Index():
+
     dbCursor.execute("SELECT * FROM employee")
     allData = dbCursor.fetchall()
 
-    return render_template("index.html", employees = allData)
+    dbCursor.execute("SELECT * FROM department")
+    departmentData = dbCursor.fetchall()
 
+    dbCursor.execute("SELECT * FROM project")
+    projectData = dbCursor.fetchall()
 
-# TODO: follow mysql.connector guide to udpate this method
+    dbCursor.execute("SELECT * FROM works")
+    worksData = dbCursor.fetchall()
+
+    return render_template("index.html", employees = allData, departments = departmentData, projects = projectData, works = worksData)
+
+#                                   CONTROLS FOR THE EMPLOYEE DATABASE
+#######################################################################################
+
 @app.route('/insertEmployee', methods = ['POST'])
 def insertEmployee():
 
@@ -125,18 +135,194 @@ def deleteEmployee(SSN):
 #                                   CONTROLS FOR THE DEPARTMENT DATBASE
 #######################################################################################
 
+@app.route('/insertDepartment', methods = ['POST'])
+def insertDepartment():
+
+    addDepartmentCommand = ("INSERT INTO department (DeptNum, DeptName, managerSSN) VALUES (%s, %s, %s)")
+
+    if request.method == 'POST':
+        DeptNum = request.form['DeptNum']
+        DeptName = request.form['DeptName']
+        managerSSN = request.form['managerSSN']
+
+    try:
+        departmentData = (DeptNum, DeptName, managerSSN)
+
+        dbCursor.execute(addDepartmentCommand, departmentData)
+        db.commit()
+        flash("Department inserted successfully")
+    except:
+        db.rollback()
+        flash("DEPARTMENT ALREADY EXISTS. TRY AGAIN")
+
+    return redirect(url_for('Index'))
+
+
+@app.route('/updateDepartment', methods = ['GET', 'POST'])
+def updateDepartment():
+
+    updateDepartmentName = ("UPDATE department SET DeptName = %s WHERE DeptNum = %s")
+    updateManagerSSN = ("UPDATE department SET managerSSN = %s WHERE DeptNum = %s")
+
+    if request.method == 'POST':
+        DeptNum = request.form['DeptNum']
+        requestedDeptName = request.form['DeptName']
+        requestedManagerSSN = request.form['managerSSN']
+
+    newValueDeptName = (requestedDeptName, DeptNum)
+    newValueManagerSSN = (requestedManagerSSN, DeptNum)
+
+    dbCursor.execute(updateDepartmentName, newValueDeptName)
+    dbCursor.execute(updateManagerSSN, newValueManagerSSN)
+
+    db.commit()
+    flash("Department updated successfully")
+    
+    return redirect(url_for('Index'))
+        
+
+@app.route('/deleteDepartment/<DeptNum>', methods = ['GET', 'POST'])
+def deleteDepartment(DeptNum):
+
+    deleteDepartmentCommand = ("DELETE FROM department WHERE DeptNum = %s")
+    DeptNum = (DeptNum, )
+    dbCursor.execute(deleteDepartmentCommand, DeptNum)
+
+    db.commit()
+    flash("Department deleted successfully")
+
+    return redirect(url_for('Index'))
 
 
 #                                   CONTROLS FOR THE PROJECT DATBASE
 #######################################################################################
 
+@app.route('/insertProject', methods = ['POST'])
+def insertProject():
+
+    addProjectCommand = ("INSERT INTO project (ProjName, ProjNum, ProjDesc) VALUES (%s, %s, %s)")
+
+    if request.method == 'POST':
+        ProjName = request.form['ProjName']
+        ProjNum = request.form['ProjNum']
+        ProjDesc = request.form['ProjDesc']
+
+    try:
+        projectData = (ProjName, ProjNum, ProjDesc)
+
+        dbCursor.execute(addProjectCommand, projectData)
+        db.commit()
+        flash("Project inserted successfully")
+    except:
+        db.rollback()
+        flash("PROJECT ALREADY EXISTS. TRY AGAIN")
+
+    return redirect(url_for('Index'))
+
+
+@app.route('/updateProject', methods = ['GET', 'POST'])
+def updateProject():
+
+    updateProjName = ("UPDATE project SET ProjName = %s WHERE ProjNum = %s")
+    updateProjDesc = ("UPDATE project SET ProjDesc = %s WHERE ProjNum = %s")
+
+    if request.method == 'POST':
+        ProjNum = request.form['ProjNum']
+        requestedProjName = request.form['ProjName']
+        requestedProjDesc = request.form['ProjDesc']
+
+    newValueProjName = (requestedProjName, ProjNum)
+    newValueProjDesc = (requestedProjDesc, ProjNum)
+
+    dbCursor.execute(updateProjName, newValueProjName)
+    dbCursor.execute(updateProjDesc, newValueProjDesc)
+
+    db.commit()
+    flash("Project updated successfully")
+    
+    return redirect(url_for('Index'))
+        
+
+@app.route('/deleteProject/<ProjNum>', methods = ['GET', 'POST'])
+def deleteProject(ProjNum):
+
+    deleteProjectCommand = ("DELETE FROM project WHERE ProjNum = %s")
+    ProjNum = (ProjNum, )
+    dbCursor.execute(deleteProjectCommand, ProjNum)
+
+    db.commit()
+    flash("Project deleted successfully")
+
+    return redirect(url_for('Index'))
 
 
 #                                   CONTROLS FOR THE WORKS DATBASE
 #######################################################################################
 
+@app.route('/insertWorks', methods = ['POST'])
+def insertWorks():
+
+    addWorksCommand = ("INSERT INTO works (SSN, ProjName, ProjNum, DeptNum) VALUES (%s, %s, %s, %s)")
+
+    if request.method == 'POST':
+        SSN = request.form['SSN']
+        ProjName = request.form['ProjName']
+        ProjNum = request.form['ProjNum']
+        DeptNum = request.form['DeptNum']
+
+    try:
+        worksData = (SSN, ProjName, ProjNum, DeptNum)
+
+        dbCursor.execute(addWorksCommand, worksData)
+        db.commit()
+        flash("Work relationship inserted successfully")
+    except:
+        db.rollback()
+        flash("INVALID VALUES TRY AGAIN")
+
+    return redirect(url_for('Index'))
 
 
-# LAUNCH
+@app.route('/updateWorks', methods = ['GET', 'POST'])
+def updateWorks():
+
+    updateProjName = ("UPDATE works SET ProjName = %s WHERE SSN = %s")
+    updateProjNum = ("UPDATE works SET ProjNum = %s WHERE SSN = %s")
+    updateDeptNum = ("UPDATE works SET DeptNum = %s WHERE SSN = %s")
+
+    if request.method == 'POST':
+        SSN = request.form['SSN']
+        requestedProjName = request.form['ProjName']
+        requestedProjNum = request.form['ProjNum']
+        requestedDeptNum = request.form['DeptNum']
+
+    newValueProjName = (requestedProjName, SSN)
+    newValueProjNum = (requestedProjNum, SSN)
+    newValuesDeptNum = (requestedDeptNum, SSN)
+
+    dbCursor.execute(updateProjName, newValueProjName)
+    dbCursor.execute(updateProjNum, newValueProjNum)
+    dbCursor.execute(updateDeptNum, newValuesDeptNum)
+
+    db.commit()
+    flash("Work relationship updated successfully")
+    
+    return redirect(url_for('Index'))
+        
+
+@app.route('/deleteWorks/<SSN>', methods = ['GET', 'POST'])
+def deleteWorks(SSN):
+
+    deleteWorksCommand = ("DELETE FROM works WHERE SSN = %s")
+    SSN = (SSN, )
+    dbCursor.execute(deleteWorksCommand, SSN)
+
+    db.commit()
+    flash("Works relationship deleted successfully")
+
+    return redirect(url_for('Index'))
+
+#                                   LAUNCH
+#######################################################################################
 if __name__ == "__main__":
     app.run(debug="true")
