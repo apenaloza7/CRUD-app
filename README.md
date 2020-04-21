@@ -1,6 +1,6 @@
 # CRUD APP
 
-Application used for 'Penaloza LLC' that showcases knowledge of CRUD applications. 
+Application used for 'Peñaloza Inc' that showcases knowledge of CRUD applications. 
 
 ## Uses:
 
