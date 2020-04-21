@@ -7,7 +7,7 @@ This file serves as the main file that creates the app and houses routes
 Program uses Python 3.73, Flask, SQL Alchemy, a mySQL server, and PHPmyAdmin
 
 Author - Alejandro Penaloza
-Last updated - 4/19/2020
+Last updated - 4/20/2020
 """
 
 #                                   WEB APP AND DATABASE SETUP
