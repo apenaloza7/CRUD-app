@@ -7,9 +7,10 @@ This file serves as the main file that creates the app and houses routes
 Program uses Python 3.73, Flask, SQL Alchemy, a mySQL server, and PHPmyAdmin
 
 Author - Alejandro Penaloza
-Last updated - 4/20/2020
+Last updated - 4/22/2020
 """
 
+#######################################################################################
 #                                   WEB APP AND DATABASE SETUP
 #######################################################################################
 
@@ -34,6 +35,7 @@ db = mysql.connector.connect(**config)
 # Create a cursor for the database
 dbCursor = db.cursor()
 
+#######################################################################################
 #                                   CONTROLS FOR THE MAIN PAGE
 #######################################################################################
 
@@ -55,6 +57,7 @@ def Index():
 
     return render_template("index.html", employees = allData, departments = departmentData, projects = projectData, works = worksData)
 
+#######################################################################################
 #                                   CONTROLS FOR THE EMPLOYEE DATABASE
 #######################################################################################
 
@@ -76,10 +79,10 @@ def insertEmployee():
 
         dbCursor.execute(addEmployeeCommand, employeeData)
         db.commit()
-        flash("Employee inserted successfully")
+        flash("Employee inserted successfully", 'employee')
     except:
         db.rollback()
-        flash("SSN ALREADY EXISTS. TRY AGAIN")
+        flash("SSN ALREADY EXISTS. TRY AGAIN", "employee")
 
     return redirect(url_for('Index'))
 
@@ -115,9 +118,9 @@ def updateEmployee():
 
     db.commit()
     flash("Employee updated successfully")
-    
+
     return redirect(url_for('Index'))
-        
+
 
 @app.route('/deleteEmployee/<SSN>', methods = ['GET', 'POST'])
 def deleteEmployee(SSN):
@@ -132,6 +135,7 @@ def deleteEmployee(SSN):
     return redirect(url_for('Index'))
 
 
+#######################################################################################
 #                                   CONTROLS FOR THE DEPARTMENT DATBASE
 #######################################################################################
 
@@ -177,9 +181,9 @@ def updateDepartment():
 
     db.commit()
     flash("Department updated successfully")
-    
+
     return redirect(url_for('Index'))
-        
+
 
 @app.route('/deleteDepartment/<DeptNum>', methods = ['GET', 'POST'])
 def deleteDepartment(DeptNum):
@@ -194,6 +198,7 @@ def deleteDepartment(DeptNum):
     return redirect(url_for('Index'))
 
 
+#######################################################################################
 #                                   CONTROLS FOR THE PROJECT DATBASE
 #######################################################################################
 
@@ -239,9 +244,9 @@ def updateProject():
 
     db.commit()
     flash("Project updated successfully")
-    
+
     return redirect(url_for('Index'))
-        
+
 
 @app.route('/deleteProject/<ProjNum>', methods = ['GET', 'POST'])
 def deleteProject(ProjNum):
@@ -255,7 +260,7 @@ def deleteProject(ProjNum):
 
     return redirect(url_for('Index'))
 
-
+#######################################################################################
 #                                   CONTROLS FOR THE WORKS DATBASE
 #######################################################################################
 
@@ -306,9 +311,9 @@ def updateWorks():
 
     db.commit()
     flash("Work relationship updated successfully")
-    
+
     return redirect(url_for('Index'))
-        
+
 
 @app.route('/deleteWorks/<SSN>', methods = ['GET', 'POST'])
 def deleteWorks(SSN):
@@ -322,6 +327,7 @@ def deleteWorks(SSN):
 
     return redirect(url_for('Index'))
 
+#######################################################################################
 #                                   LAUNCH
 #######################################################################################
 if __name__ == "__main__":
