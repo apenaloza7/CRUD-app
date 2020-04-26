@@ -20,6 +20,21 @@ app = Flask(__name__)
 app.secret_key = "mysecretkey"
 
 # Configurations for the database
+
+# HEROKU DATABASE
+
+config = {
+    'user': 'b273314baed36f',
+    'password': '58715fe4',
+    'host': 'us-cdbr-iron-east-01.cleardb.net',
+    'port': '3306',
+    'database': 'heroku_f0232cf140aaa44',
+    'raise_on_warnings': True,
+}
+
+
+# LOCAL DATABASE
+"""
 config = {
     'user': 'root',
     'password': 'root',
@@ -28,6 +43,7 @@ config = {
     'database': 'csc471',
     'raise_on_warnings': True,
 }
+"""
 
 # Give the database a variable
 db = mysql.connector.connect(**config)
@@ -331,4 +347,4 @@ def deleteWorks(SSN):
 #                                   LAUNCH
 #######################################################################################
 if __name__ == "__main__":
-    app.run(debug="true")
+    app.run()
