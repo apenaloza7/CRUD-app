@@ -22,7 +22,7 @@ app.secret_key = "mysecretkey"
 # Configurations for the database
 
 # HEROKU DATABASE
-
+"""
 config = {
     'user': 'b273314baed36f',
     'password': '58715fe4',
@@ -31,10 +31,10 @@ config = {
     'database': 'heroku_f0232cf140aaa44',
     'raise_on_warnings': True,
 }
-
+"""
 
 # LOCAL DATABASE
-"""
+
 config = {
     'user': 'root',
     'password': 'root',
@@ -43,7 +43,7 @@ config = {
     'database': 'csc471',
     'raise_on_warnings': True,
 }
-"""
+
 
 # Give the database a variable
 db = mysql.connector.connect(**config)
@@ -317,16 +317,21 @@ def updateWorks():
         requestedProjNum = request.form['ProjNum']
         requestedDeptNum = request.form['DeptNum']
 
-    newValueProjName = (requestedProjName, SSN)
-    newValueProjNum = (requestedProjNum, SSN)
-    newValuesDeptNum = (requestedDeptNum, SSN)
+    try:
+        newValueProjName = (requestedProjName, SSN)
+        newValueProjNum = (requestedProjNum, SSN)
+        newValuesDeptNum = (requestedDeptNum, SSN)
 
-    dbCursor.execute(updateProjName, newValueProjName)
-    dbCursor.execute(updateProjNum, newValueProjNum)
-    dbCursor.execute(updateDeptNum, newValuesDeptNum)
+        dbCursor.execute(updateProjName, newValueProjName)
+        dbCursor.execute(updateProjNum, newValueProjNum)
+        dbCursor.execute(updateDeptNum, newValuesDeptNum)
 
-    db.commit()
-    flash("Work relationship updated successfully")
+        db.commit()
+        flash("Work relationship updated successfully")
+    except:
+        db.rollback()
+        flash("VALUES DO NOT MATCH")
+
 
     return redirect(url_for('Index'))
 
