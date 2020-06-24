@@ -6,7 +6,6 @@ Application used for 'Peñaloza Inc' that showcases knowledge of CRUD applicatio
 
 - Python 3.7.3
 - Flask
-- SQL Alchemy
 - MySQL Server
 - JavaScript
 - BootStrap
